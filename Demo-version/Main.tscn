@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 30, 0.5, 30 )
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 60, 1, 60 )
+
+[node name="Main" type="Node"]
+
+[node name="Floor" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00631905, 0, 0 )
+
+[node name="FloorCollisionShape" type="CollisionShape" parent="Floor"]
+shape = SubResource( 1 )
+
+[node name="FloorMeshInstance" type="MeshInstance" parent="Floor"]
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.880783, 0.47352, 0, -0.47352, 0.880783, 0, 9.27431, 25.2178 )
+fov = 75.9375
