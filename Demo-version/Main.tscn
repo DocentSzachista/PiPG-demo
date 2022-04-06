@@ -1,34 +1,31 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/Player/Player.tscn" type="PackedScene" id=1]
 
-[sub_resource type="BoxShape" id=1]
-extents = Vector3( 30, 0.5, 30 )
-
-[sub_resource type="CubeMesh" id=2]
-size = Vector3( 60, 1, 60 )
-
 [sub_resource type="BoxShape" id=3]
+extents = Vector3( 1, 0.5, 1 )
+
+[sub_resource type="SpatialMaterial" id=5]
+albedo_color = Color( 0.647059, 0.160784, 0.160784, 1 )
 
 [sub_resource type="CubeMesh" id=4]
+material = SubResource( 5 )
+size = Vector3( 2, 1, 2 )
+
+[sub_resource type="SpatialMaterial" id=6]
+albedo_color = Color( 0.54902, 0.905882, 0.572549, 1 )
+metallic = 0.16
+
+[sub_resource type="SpatialMaterial" id=7]
+albedo_color = Color( 0.54902, 0.905882, 0.572549, 1 )
 
 [node name="Main" type="Node"]
 
-[node name="Floor" type="StaticBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00631905, 0, 0 )
-
-[node name="FloorCollisionShape" type="CollisionShape" parent="Floor"]
-shape = SubResource( 1 )
-
-[node name="FloorMeshInstance" type="MeshInstance" parent="Floor"]
-mesh = SubResource( 2 )
-material/0 = null
-
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.938528, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9888, 0 )
 
 [node name="RigidBody" type="RigidBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.59745, 2.14314, -8.76087 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.59745, 1.64011, -5.52661 )
 
 [node name="CollisionShape" type="CollisionShape" parent="RigidBody"]
 shape = SubResource( 3 )
@@ -36,3 +33,19 @@ shape = SubResource( 3 )
 [node name="MeshInstance" type="MeshInstance" parent="RigidBody"]
 mesh = SubResource( 4 )
 material/0 = null
+
+[node name="MainCSGBox" type="CSGBox" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.65598, 0 )
+use_collision = true
+width = 20.0
+height = 5.0
+depth = 20.0
+material = SubResource( 6 )
+
+[node name="SubstractCSGBox" type="CSGBox" parent="MainCSGBox"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.192096, 0 )
+operation = 2
+width = 18.0
+height = 5.0
+depth = 18.0
+material = SubResource( 7 )

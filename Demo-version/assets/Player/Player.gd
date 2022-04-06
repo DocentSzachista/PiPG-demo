@@ -1,42 +1,65 @@
 extends KinematicBody
 # EXPORT VARIABLES #
 export var speed := 10.0
-export var fall_acceleration := 75
-export var jump_strenght := 5.0
-export var gravity := 50
+export var move_acceleration := 10.0
+export var in_air_acceleration = 1.0
+export var jump_height := 2.5
+export var gravity := 20.0
+export var sensitivity := 1.0
+
 # SCRIPT VARIABLES
 var _velocity = Vector3.ZERO
-var _snap_vector = Vector3.DOWN
 
-onready var _head: Spatial = $Head
+var _jumped = false
+var lookSensitivity = 10.0
+var sensivity_factor = 0.35
+onready var _head := $Head
 
 # SYSTEM VARIABLES
 
 func _ready():
 	pass # Replace with function body.
 
+func _input(event):
+	if event is InputEventMouseMotion:
+		rotate_y(deg2rad(-event.relative.x * sensitivity * sensivity_factor))
+		_head.rotate_x(deg2rad(-event.relative.y * sensitivity * sensivity_factor) )
+		_head.rotation.x = clamp(_head.rotation.x, deg2rad(-90), deg2rad(90))
+	if event.is_action_pressed("jump"):
+		_jumped = true
 
-# lets proccess basic physics
+
 func _physics_process(delta) -> void:
 	
-	_count_move(delta)
-	_velocity = move_and_slide_with_snap(_velocity, _snap_vector, Vector3.UP, true)
+	var snap = Vector3.ZERO	
+	var acc = in_air_acceleration
+	var curr_y = _velocity.y
+	_velocity.y = 0
 	
+	
+	if is_on_floor():
+		acc = move_acceleration
+		if _jumped :
+			curr_y = sqrt(2 * jump_height * gravity)
+			_jumped = false
+	else:
+			curr_y -= gravity * delta
+	
+	#	
+	_velocity = _velocity.linear_interpolate( _get_move_dir() * speed, acc * delta)
+	_velocity.y = curr_y 	
+	_velocity = move_and_slide_with_snap(_velocity, snap, Vector3.UP,  false, 4, PI/4, false)
 	
 	
 ##
 #   PRIVATE SECTION
 ##	
-	
-func _move_dir() -> Vector3:
+
+# function to process user movement direction
+func _get_move_dir() -> Vector3:
 	var move_direction = Vector3()
 	move_direction.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	move_direction.z = Input.get_action_strength("move_backward") - Input.get_action_strength("move_foward")
 	return move_direction.rotated(Vector3.UP,  global_transform.basis.get_euler().y).normalized()
 
-func _count_move(delta) ->void:
-	var direction = _move_dir()
-	_velocity.x = direction.x * speed
-	_velocity.z = direction.z * speed
-	_velocity.y -= 	gravity * delta
-	
+
