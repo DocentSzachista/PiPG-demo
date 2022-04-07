@@ -1,7 +1,5 @@
 extends Reference
 
-var _error := ""
-
 func get_name() -> String:
 	return "echo"
 

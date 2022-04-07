@@ -45,7 +45,6 @@ func _parse_line(line: String) -> ParseResult:
 		var arg_text = _trim_arg(argument.get_string())
 		# Allow for comment chaining
 		if arg_text.begins_with("$"):
-			print(arg_text.trim_prefix("$"))
 			args.append(_execute_line(arg_text.trim_prefix("$")))
 		else:
 			args.append(arg_text)
@@ -120,7 +119,9 @@ func execute(script: String) -> void:
 	for line in lines:
 		if _error:
 			break;
-		_enviroment.display_text(_execute_line(line))
+		var res := _execute_line(line)
+		if res != "":
+			_enviroment.display_text(res)
 
 
 

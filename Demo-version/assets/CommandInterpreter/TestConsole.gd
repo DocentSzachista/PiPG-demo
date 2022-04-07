@@ -5,7 +5,10 @@ onready var console := $RichTextLabel
 var _interpreter := Interpreter.new()
 var _env := CommandEnviroment.new()
 var _commands := [
-	preload("res://assets/CommandInterpreter/Commands/Echo.gd").new(),
+	preload("res://assets/CommandInterpreter/Commands/EchoCommand.gd").new(),
+	preload("res://assets/CommandInterpreter/Commands/SetCommand.gd").new(),
+	preload("res://assets/CommandInterpreter/Commands/GetCommand.gd").new(),
+	preload("res://assets/CommandInterpreter/Commands/CalcCommand.gd").new(),
 ]
 
 func _display_text(text: String) -> void:
