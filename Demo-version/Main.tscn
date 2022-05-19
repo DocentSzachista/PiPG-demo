@@ -83,6 +83,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.461, 8.487 )
 script = ExtResource( 7 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MovingPlatform"]
+playback_process_mode = 0
 anims/RESET = SubResource( 7 )
 anims/move = SubResource( 8 )
 

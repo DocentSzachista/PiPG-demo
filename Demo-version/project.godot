@@ -23,11 +23,17 @@ _global_script_classes=[ {
 "class": "Interpreter",
 "language": "GDScript",
 "path": "res://assets/CommandInterpreter/Interpreter.gd"
+}, {
+"base": "KinematicBody",
+"class": "Player",
+"language": "GDScript",
+"path": "res://assets/Player/Player.gd"
 } ]
 _global_script_class_icons={
 "CommandEnviroment": "",
 "CommandReturnValue": "",
-"Interpreter": ""
+"Interpreter": "",
+"Player": ""
 }
 
 [application]

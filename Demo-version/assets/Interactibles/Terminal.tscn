@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/CommandInterpreter/TestConsole.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/Interactibles/Terminal.gd" type="Script" id=2]
+[ext_resource path="res://assets/CommandInterpreter/Commands/EchoCommand.gd" type="Script" id=3]
+
+[sub_resource type="CubeMesh" id=1]
+size = Vector3( 1.701, 1, 0.2 )
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_color = Color( 0, 0, 0, 1 )
+metallic_specular = 0.94
+
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 0.851, 0.5, 0.1 )
+
+[node name="Terminal" type="StaticBody" groups=["interactibles"]]
+script = ExtResource( 2 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 3 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="TestConsole" parent="ColorRect" instance=ExtResource( 1 )]
+_commands = [ ExtResource( 3 ) ]

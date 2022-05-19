@@ -3,6 +3,9 @@ extends Reference
 func get_name() -> String:
 	return "echo"
 
+func get_help() -> String:
+	return "echo [ARGS...]: prints the arguments to the screen"
+
 func run(args: Array, _enviroment: CommandEnviroment) -> CommandReturnValue:
 	var ret_val := CommandReturnValue.new()
 	if len(args) == 0:

@@ -3,6 +3,9 @@ extends Reference
 func get_name() -> String:
 	return "calc"
 
+func get_help() -> String:
+	return "calc <EXPRESSION>: calculates an expression"
+
 func run(args: Array, enviroment: CommandEnviroment) -> CommandReturnValue:
 	var ret_val := CommandReturnValue.new()
 	if len(args) == 0:

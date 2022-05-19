@@ -7,9 +7,10 @@
 radius = 0.41868
 height = 1.00024
 
-[node name="Player" type="KinematicBody"]
+[node name="Player" type="KinematicBody" groups=["move_target"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.410844, 0 )
 script = ExtResource( 1 )
+speed = 7.0
 
 [node name="Head" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.924449, 0 )
@@ -21,7 +22,9 @@ fov = 90.0
 [node name="Spatial" type="Spatial" parent="Head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.003, -1.5 )
 script = ExtResource( 2 )
+max_grab_mass = 5.0
 velocity_mult = 10.0
+player_path = NodePath("../..")
 
 [node name="InteractionRayCast" type="RayCast" parent="Head/Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5 )

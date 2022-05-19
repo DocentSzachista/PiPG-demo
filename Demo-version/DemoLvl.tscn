@@ -1,0 +1,100 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://prototype-graphics/world_triplanar.tres" type="Material" id=2]
+[ext_resource path="res://assets/Interactibles/FloorButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/Interactibles/Cube.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/LevelElements/Bridge.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/Interactibles/Terminal.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/CommandInterpreter/Commands/MoveCommand.gd" type="Script" id=7]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_transparent = true
+albedo_color = Color( 0.521569, 0.521569, 0.521569, 0.156863 )
+
+[node name="DemoLvl" type="Spatial"]
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.663948, 1.86954, 2.23347 )
+reset_point = Vector3( 0.664, 1.87, 2.233 )
+
+[node name="Level1Stuff" type="Spatial" parent="."]
+
+[node name="FloorButton" parent="Level1Stuff" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6 )
+min_mass = 3.0
+
+[node name="Cube" parent="Level1Stuff" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.45566, 0.886458, -7.70492 )
+mass = 2.0
+
+[node name="Cube2" parent="Level1Stuff" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.21841, 0.886458, -6.11185 )
+mass = 2.0
+
+[node name="Bridge" parent="Level1Stuff" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, -20 )
+
+[node name="Level2Stuff" type="Spatial" parent="."]
+
+[node name="Button" parent="Level2Stuff" groups=["move_target"] instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -46 )
+
+[node name="Cube" parent="Level2Stuff" groups=["moveable"] instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.70155, 1.94052, -36.115 )
+
+[node name="Terminal" parent="Level2Stuff" instance=ExtResource( 6 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.86309, 2, -40.2144 )
+
+[node name="TestConsole" parent="Level2Stuff/Terminal/ColorRect" index="0"]
+_commands = [ ExtResource( 7 ) ]
+
+[node name="Bridge2" parent="Level2Stuff" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, -60 )
+
+[node name="CSGCombiner" type="CSGCombiner" parent="."]
+use_collision = true
+
+[node name="Platform1" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
+width = 20.0
+height = 1.0
+depth = 20.0
+material = ExtResource( 2 )
+
+[node name="Platform2" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -40 )
+width = 20.0
+height = 1.0
+depth = 20.0
+material = ExtResource( 2 )
+
+[node name="Platform3" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -80 )
+width = 20.0
+height = 1.0
+depth = 20.0
+material = ExtResource( 2 )
+
+[node name="Cage" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.31339, 2, -36.5825 )
+width = 4.0
+height = 4.0
+depth = 4.0
+material = SubResource( 1 )
+
+[node name="Cage2" type="CSGBox" parent="CSGCombiner/Cage"]
+operation = 1
+width = 3.8
+height = 3.8
+depth = 3.8
+material = SubResource( 1 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.489809, -0.65272, 0.577965, 0, 0.662934, 0.748678, -0.87183, -0.366709, 0.324711, 0, 4.39904, 0 )
+shadow_enabled = true
+
+[connection signal="toggled" from="Level1Stuff/FloorButton" to="Level1Stuff/Bridge" method="toggle_bridge"]
+[connection signal="toggled" from="Level2Stuff/Button" to="Level2Stuff/Bridge2" method="toggle_bridge"]
+
+[editable path="Level2Stuff/Terminal"]

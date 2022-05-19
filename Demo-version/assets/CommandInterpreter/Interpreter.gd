@@ -104,6 +104,7 @@ func load_commands(command_array: Array) -> void:
 	for command in command_array:
 		assert(command.has_method("get_name"), "Command has to have a 'get_name' method")
 		assert(command.has_method("run"), "Command '%s' has to have a 'run' method" % command.get_name())
+		assert(command.has_method("get_help"), "Command '%s' has to have a 'get_help' method" % command.get_name())
 		_commands[command.get_name()] = command
 
 # Sets the current enviroment on which the commands will be executed on
