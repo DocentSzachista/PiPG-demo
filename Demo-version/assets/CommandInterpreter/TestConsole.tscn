@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/CommandInterpreter/TestConsole.gd" type="Script" id=1]
+
+[node name="TestConsole" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_right = 1024.0
+margin_bottom = 572.0
+size_flags_vertical = 3
+scroll_following = true
+
+[node name="LineEdit" type="LineEdit" parent="."]
+margin_top = 576.0
+margin_right = 1024.0
+margin_bottom = 600.0
+caret_blink = true
+caret_blink_speed = 0.5
+
+[connection signal="text_entered" from="LineEdit" to="." method="_on_LineEdit_text_entered"]

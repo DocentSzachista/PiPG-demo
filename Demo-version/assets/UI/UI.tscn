@@ -1,0 +1,13 @@
+[gd_scene format=2]
+
+[node name="Control" type="Control"]
+margin_right = 1026.0
+margin_bottom = 600.0
+
+[node name="InteractionLabel" type="Label" parent="."]
+margin_right = 1022.0
+margin_bottom = 599.0
+text = "Press E to interact "
+align = 1
+valign = 1
+uppercase = true
