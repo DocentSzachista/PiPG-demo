@@ -26,14 +26,16 @@ func _check_interactions()->void:
 	if  _raycast.is_colliding() :
 		var collider = _raycast.get_collider()
 		if   collider is RigidBody:
-			_set_text("pickup box")
+			
 			if collider.mass <= max_grab_mass:
+				_set_text("Press E to pickup box")
 				if Input.is_action_just_pressed("interact"):	
 					_picked_object = collider as RigidBody
 					_raycast.enabled = false
-					
+			else :
+				_set_text("Too heavy")
 		elif collider.is_in_group("interactibles")  && collider.has_method("interact") :
-			_set_text(collider.interactible_text)
+			_set_text("Press E to interact with %s" %collider.interactible_text)
 			if Input.is_action_just_pressed("interact"):
 				collider.interact()
 	else:
@@ -60,6 +62,6 @@ func _set_text(text)->void:
 		_interaction_label.set_text("")
 		_interaction_label.set_visible(false)
 	else:
-		_interaction_label.set_text("Press E to interact with %s" % text)  
+		_interaction_label.set_text(text)  
 		_interaction_label.set_visible(true)
 
