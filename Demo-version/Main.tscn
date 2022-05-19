@@ -69,7 +69,7 @@ material = ExtResource( 2 )
 
 [node name="InteractibleBox" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0376412, 2.03381, -3.88203 )
-mass = 1.0
+mass = 2.44
 
 [node name="Button" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13978, 8.95727 )
@@ -85,3 +85,6 @@ script = ExtResource( 7 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MovingPlatform"]
 anims/RESET = SubResource( 7 )
 anims/move = SubResource( 8 )
+
+[node name="InteractibleBox2" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0752824, 1.01868, -5.59046 )

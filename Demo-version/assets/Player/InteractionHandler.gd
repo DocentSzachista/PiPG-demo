@@ -24,17 +24,19 @@ func _physics_process(_delta : float):
 func _check_interactions()->void:
 
 	if  _raycast.is_colliding() :
-		#print("colide")
 		var collider = _raycast.get_collider()
 		if   collider is RigidBody:
-			_picked_object = _raycast.get_collider() as RigidBody
-			_raycast.enabled = false
+			_set_text("pickup box")
+			if collider.mass <= max_grab_mass:
+				if Input.is_action_just_pressed("interact"):	
+					_picked_object = collider as RigidBody
+					_raycast.enabled = false
+					
 		elif collider.is_in_group("interactibles")  && collider.has_method("interact") :
 			_set_text(collider.interactible_text)
 			if Input.is_action_just_pressed("interact"):
 				collider.interact()
 	else:
-		print("Not coliding")
 		_set_text(null)
 
 
@@ -45,7 +47,7 @@ func _update_held_rb() -> void:
 	if direction.length() > drop_distance:
 		_drop_rb()
 	else:
-		_picked_object.linear_velocity =  direction * velocity_mult  
+		_picked_object.linear_velocity =  direction * velocity_mult / 2
 
 # Drops the held rigidbody
 func _drop_rb() -> void:
