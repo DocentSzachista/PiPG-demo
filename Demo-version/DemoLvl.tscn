@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prototype-graphics/world_triplanar.tres" type="Material" id=2]
@@ -7,6 +7,26 @@
 [ext_resource path="res://assets/LevelElements/Bridge.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/Interactibles/Terminal.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/CommandInterpreter/Commands/MoveCommand.gd" type="Script" id=7]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Label
+
+func _ready() -> void:
+	toggle_text(false)
+
+func toggle_text(state: bool) -> void:
+	visible = state
+	$Particles.emitting = state
+"
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_unshaded = true
+flags_disable_ambient_light = true
+
+[sub_resource type="SphereMesh" id=4]
+material = SubResource( 3 )
+radius = 0.3
+height = 0.6
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_transparent = true
@@ -52,6 +72,46 @@ _commands = [ ExtResource( 7 ) ]
 [node name="Bridge2" parent="Level2Stuff" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, -60 )
 
+[node name="Level3Stuff" type="Spatial" parent="."]
+
+[node name="FloorButton" parent="Level3Stuff" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12, -80 )
+min_mass = 10.0
+
+[node name="Little Cube" parent="Level3Stuff" groups=["moveable"] instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.91771, 0.827288, -77.7219 )
+mass = 3.0
+reset_height = -20.0
+
+[node name="Big Cube" parent="Level3Stuff" groups=["moveable"] instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.66867, 0.827288, -75.8068 )
+mass = 10.0
+reset_height = -20.0
+
+[node name="Terminal" parent="Level3Stuff" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08079, 1.23327, -80.3424 )
+
+[node name="TestConsole" parent="Level3Stuff/Terminal/ColorRect" index="0"]
+_commands = [ ExtResource( 7 ) ]
+
+[node name="WinText" type="Label" parent="Level3Stuff"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "You won!"
+align = 1
+valign = 1
+script = SubResource( 2 )
+
+[node name="Particles" type="CPUParticles" parent="Level3Stuff/WinText"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -83.9737 )
+emitting = false
+mesh = SubResource( 4 )
+direction = Vector3( 0, 1, 0 )
+spread = 10.0
+initial_velocity = 20.0
+initial_velocity_random = 1.0
+color = Color( 1, 0.85098, 0.0352941, 1 )
+
 [node name="CSGCombiner" type="CSGCombiner" parent="."]
 use_collision = true
 
@@ -76,6 +136,19 @@ height = 1.0
 depth = 20.0
 material = ExtResource( 2 )
 
+[node name="CSGBox2" type="CSGBox" parent="CSGCombiner/Platform3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6, 0 )
+width = 3.0
+height = 13.0
+depth = 3.0
+material = ExtResource( 2 )
+
+[node name="CSGBox" type="CSGBox" parent="CSGCombiner/Platform3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.5, 0 )
+operation = 2
+height = 12.0
+material = ExtResource( 2 )
+
 [node name="Cage" type="CSGBox" parent="CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.31339, 2, -36.5825 )
 width = 4.0
@@ -96,5 +169,7 @@ shadow_enabled = true
 
 [connection signal="toggled" from="Level1Stuff/FloorButton" to="Level1Stuff/Bridge" method="toggle_bridge"]
 [connection signal="toggled" from="Level2Stuff/Button" to="Level2Stuff/Bridge2" method="toggle_bridge"]
+[connection signal="toggled" from="Level3Stuff/FloorButton" to="Level3Stuff/WinText" method="toggle_text"]
 
 [editable path="Level2Stuff/Terminal"]
+[editable path="Level3Stuff/Terminal"]

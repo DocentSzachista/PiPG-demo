@@ -50,6 +50,8 @@ func run(args: Array, enviroment: CommandEnviroment) -> CommandReturnValue:
 		return ret_val
 	
 	obj.global_transform.origin = to.global_transform.origin + Vector3(0, 2, 0)
+	if obj is RigidBody:
+		obj.linear_velocity = Vector3(0, -0.1, 0)
 	ret_val.is_valid = true
 	ret_val.result = "moved!"
 	return ret_val

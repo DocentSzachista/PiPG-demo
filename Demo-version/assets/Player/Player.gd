@@ -7,7 +7,8 @@ export var in_air_acceleration = 1.0
 export var jump_height := 2.5
 export var gravity := 20.0
 export var sensitivity := 1.0
-export var push_strength = 2.0
+export var push_strength := 2.0
+export var max_push_mass := 5
 
 export(Vector3) var reset_point := Vector3.ZERO
 export (float) var reset_height := -10
@@ -91,4 +92,5 @@ func _push_rigid_bodies() -> void:
 			var rb : RigidBody = collision.collider
 			if is_on_floor() and collision.normal.is_equal_approx(get_floor_normal()) or rb.mode != RigidBody.MODE_RIGID:
 				continue
-			rb.add_force(push_force, collision.normal)
+			if rb.mass <= max_push_mass:
+				rb.add_force(push_force, collision.normal)
